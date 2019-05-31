@@ -1,32 +1,43 @@
 ﻿1.建立git仓库
+
 	$ git init
 
 2.把文件添加到仓库
+
 	$ git add + filename
 
 3.把文件提交到仓库
+
 	$ git commit -m "wrote a readme file"
 
 4.查看提交结果/对比工作区和文件和仓库文件的不同之处
+
 	$ git status
 
 5.比对并列出文件和仓库文件的不同之处
+
 	$ git diff
 
 #如果git status告诉你有文件被修改过，用git diff可以查看修改内容。
 
 6.Git查看历史记录
+
 	$ git log/git log --pretty=oneline(查看精简版)
 
 7.退回曾经的某个版本
+
 	$ git reset --hard HEAD^
+
 		用HEAD表示当前版本，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100 
 
 	7.1 退回最新版
+
 		$ git reset --hard + (对应的append GPL的commit id)
 	
 	7.2 查找所有版本append GPL的commit id
+
 		$ git reflog
+
 #git原理:
 #
 #	1.工作区（Working Directory）
@@ -43,15 +54,19 @@
 #			我们创建Git版本库时，Git自动为我们创建了唯一一个master分支，所以，现在，git commit就是往master分支上提交更改
 
 8.查看工作区和版本库里面最新版本的区别
+
 	$ git diff HEAD -- +文件名
 
 9.放弃对文件的更改
 
 	9.1 放弃对"工作区"文件的更改
+
 		$ git checkout -- 文件名
+
 			$ git checkout -- file命令中的--很重要，没有--，就变成了“切换到另一个分支”的命令
 
 	9.2 放弃对"暂存区"文件的更改
+
 		$ git reset HEAD + 文件名
 
 #场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令git checkout -- file。
@@ -63,6 +78,7 @@
 
 10.创建GitHub远程仓库
 	第1步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa,id_rsa.pub这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），创建SSH Key
+
 		$ ssh-keygen -t rsa -C "youremail@example.com"
 
 	第2步：登陆GitHub，打开“Account settings”，“SSH Keys”页面,然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容
@@ -74,6 +90,7 @@
 #		这里的 frelon 是远程仓库的名字,后面是GitHub给的URL
 
 11.推送更新到GitHub仓库上
+
 	$ git push -u 仓库名 master
 
 #由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后推送或者拉取时就不用加 -u 参数
@@ -91,31 +108,42 @@
 13.git分支
 
 	13.1 建立git分支 
+
 		$ git checkout -b bayu
+
 #		git checkout -b bayu 中的 -b表示branch相当于下面两条命令
 #		git branch bayu 建立'bayu'分支
 #		git check bayu	切换到'bayu'分支
 	13.2 查看分支
+
 		$ git branch
+
 #		当前分支前面会标一个*号
 
 	13.3 合并分支到当前分支
 
 		13.3.1 Fast合并分支
+
 			$ git merge frelon
+
 #			注意提示的 Fast-forward 信息，Git告诉我们，这次合并是“快进模式”，也就是直接把master指向dev的当前提交，所以合并速度非常快。
 
 #			当然，也不是每次合并都能Fast-forward
 
 		13.3.2 常规合并分支
-			$ git merge --no-ff -m "merge with no-ff" frelon	
+
+			$ git merge --no-ff -m "merge with no-ff" frelon
+
 #			合并分支时，加上--no-ff参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而fast forward合并就看不出来曾经做过合并。
 
 	13.4 删除多余分支
+
 		$ git branch -d bayu
 
 	13.5 丢弃未合并的分支
+
 		$ git branch -D fork1
+		
 #			假设fork1是未合并的分支,那么用13.4中的删除方法并不可行,只能用 -D强制删除
 
 
