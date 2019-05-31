@@ -29,6 +29,7 @@
 	7.2 查找所有版本append GPL的commit id
 		$ git reflog
 #git原理:
+#
 #	1.工作区（Working Directory）
 #		就是Git 创建仓库所在的目录
 #
@@ -41,10 +42,12 @@
 #
 #		git commit 实际上就是把暂存区的所有内容提交到当前分支
 #			我们创建Git版本库时，Git自动为我们创建了唯一一个master分支，所以，现在，git commit就是往master分支上提交更改
+
 8.查看工作区和版本库里面最新版本的区别
 	$ git diff HEAD -- +文件名
 
 9.放弃对文件的更改
+
 	9.1 放弃对"工作区"文件的更改
 		$ git checkout -- 文件名
 			$ git checkout -- file命令中的--很重要，没有--，就变成了“切换到另一个分支”的命令
