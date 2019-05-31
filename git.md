@@ -1,5 +1,4 @@
-﻿
-1.建立git仓库
+﻿1.建立git仓库
 	$ git init
 
 2.把文件添加到仓库
@@ -71,16 +70,172 @@
 	第3步: 登陆GitHub，在右上角找到“Create a new repo”按钮，创建一个新的仓库,在Repository name填入仓库名，其他保持默认设置，点击“Create repository”按钮，就成功地创建了一个新的Git仓库
 
 	第4步: 在本地shell上 对GitHub上的仓库绑定: git remote add frelon git@github.com:lixuanliming/frelon.git
+
 #		这里的 frelon 是远程仓库的名字,后面是GitHub给的URL
 
+11.推送更新到GitHub仓库上
+	$ git push -u 仓库名 master
+
+#由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后推送或者拉取时就不用加 -u 参数
+
+	$ git push 仓库名 master
+
+12.从远程仓库克隆
+#如果自己需要新建一个项目,且从零开发，那么最好的方式是先创建远程库，然后，在shell里从远程库克隆
+
+	12.1 建仓库过程省略,在建立仓库的时候我们可以勾选Initialize this repository with a README，这样GitHub会自动为我们创建一个README.md文件。创建完毕后，可以看到README.md文件
+
+	12.2 在本地shell 运行用命令git clone + GitHub给的仓库地址 
+	eg: git clone git@github.com:lixuanliming/frelon.git
+
+13.git分支
+
+	13.1 建立git分支 
+		$ git checkout -b bayu
+#		git checkout -b bayu 中的 -b表示branch相当于下面两条命令
+#		git branch bayu 建立'bayu'分支
+#		git check bayu	切换到'bayu'分支
+	13.2 查看分支
+		$ git branch
+#		当前分支前面会标一个*号
+
+	13.3 合并分支到当前分支
+
+		13.3.1 Fast合并分支
+			$ git merge frelon
+#			注意提示的 Fast-forward 信息，Git告诉我们，这次合并是“快进模式”，也就是直接把master指向dev的当前提交，所以合并速度非常快。
+
+#			当然，也不是每次合并都能Fast-forward
+
+		13.3.2 常规合并分支
+			$ git merge --no-ff -m "merge with no-ff" frelon	
+#			合并分支时，加上--no-ff参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而fast forward合并就看不出来曾经做过合并。
+
+	13.4 删除多余分支
+		$ git branch -d bayu
+
+	13.5 丢弃未合并的分支
+		$ git branch -D fork1
+#			假设fork1是未合并的分支,那么用13.4中的删除方法并不可行,只能用 -D强制删除
 
 
 
 
 
+查看分支：git branch
+创建分支：git branch <name>
+切换分支：git checkout <name>
+创建+切换分支：git checkout -b <name>
+合并某分支到当前分支：git merge <name>
+删除分支：git branch -d <name>
+
+14.git合并时遇到的冲突问题
+	当Git无法自动合并分支时，就必须首先解决冲突。解决冲突后，再提交，合并完成。解决冲突就是把Git合并失败的文件手动编辑为我们希望的内容，再提交。用git log --graph命令可以看到分支合并图。
+
+	14.1 查看分支合并图
+		$ git log --graph
+
+15.git解决bug分支的问题
+	修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除.当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，再git stash pop，回到工作现场。
+
+	$ git stash
+#		把工作区的文件暂时隐藏起来
+	
+	$ git checkout master
+#		切换到master分支下面
+
+	$ git checkout -b issue-101
+#		建立issue-101的修复bug的分支  ""并进入该分支修复bug""
+
+	$ git add xxx.py
+#		把文件提交到暂存区
+
+	$ git commit -m "fix bug 101"
+#		提交文件到仓库
+
+	$ git checkout master
+#		回到原分支
+
+	$ git merge --no-ff -m "merged bug fix 101" issue-101
+#		删除issue-101分支
+
+	$ git checkout dev
+#		返回原分区
+
+	$ git status
+#		还原工作区
+
+	$ git stash pop
+#		继续工作
+
+16 git的多人协作
+
+	16.1 查看远程仓库的信息
+		$ git remote -v(显示详细信息)
+
+	16.2 推送分支到远程仓库
+		$ git push origin master
+#			这是推送主分支(origin是远程仓库的名字)
+
+		$ git push origin dev
+#			还可以推送别的副分支(origin是远程仓库的名字)
+
+	16.3 抓取分支
+
+		从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+
+		在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+		建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+		从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
+17 git标签管理
+
+	17.1 git创建标签
+		$ git tag 标签名称
+	
+	17.2 对git已经commit过的历史文件打标签
+		$ git log --pretty=oneline --abbrev-commit
+#			查看log中所记录的commit id
+
+		$ git tag v0.9 f52c633
+#			对commit id为 f52c633 的文件打上标签为 v0.9
+#
+#			还可以创建带有说明的标签，用-a指定标签名，-m指定说明文字
+#				$ git tag -a v0.1 -m "blablabla" 1094adb
+
+	17.3 查看标签信息
+		$ git tag
+#			查看所有 tag信息
+
+		$ git show <tagname>
+#			查看指定tag信息
+
+	17.4 推送标签到远程
+		$ git push frelon v1.0
+#			给某个仓库打标签
+
+		$ git push frelon --tags
+#			一次性推送全部尚未推送到远程的本地标签,前提是本地都打了标签
+
+	17.5 删除标签
+
+		$ git tag -d v0.1
+#			这适用于尚为推送到远程仓库使用
+
+#		如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：
+		$ git tag -d v0.9
+		$ git push frelon :refs/tags/v0.9
+
+
+命令git push origin <tagname>可以推送一个本地标签；
+命令git push origin --tags可以推送全部未推送过的本地标签；
+命令git tag -d <tagname>可以删除一个本地标签；
+命令git push origin :refs/tags/<tagname>可以删除一个远程标签。
 
 
 
 
-
-
+本文多数资料来自
+https://www.liaoxuefeng.com/
