@@ -57,10 +57,18 @@
 #场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令git reset HEAD <file>，就回到了场景1，第二步按场景1操作。
 #
 #场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考版本回退<number 7>，不过前提是没有推送到远程库。
+#命令git rm用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失最近一次提交后你修改的内容
 
+10.创建GitHub远程仓库
+	第1步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa,id_rsa.pub这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），创建SSH Key
+		$ ssh-keygen -t rsa -C "youremail@example.com"
 
+	第2步：登陆GitHub，打开“Account settings”，“SSH Keys”页面,然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容
 
+	第3步: 登陆GitHub，在右上角找到“Create a new repo”按钮，创建一个新的仓库,在Repository name填入仓库名，其他保持默认设置，点击“Create repository”按钮，就成功地创建了一个新的Git仓库
 
+	第4步: 在本地shell上 对GitHub上的仓库绑定: git remote add frelon git@github.com:lixuanliming/frelon.git
+#		这里的 frelon 是远程仓库的名字,后面是GitHub给的URL
 
 
 
