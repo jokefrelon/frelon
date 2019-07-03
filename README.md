@@ -1,4 +1,4 @@
-﻿1.建立git仓库
+t仓库
 
 	$ git init
 
