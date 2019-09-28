@@ -77,6 +77,7 @@ t仓库
 #命令git rm用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失最近一次提交后你修改的内容
 
 10.创建GitHub远程仓库
+
 	第1步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa,id_rsa.pub这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），创建SSH Key
 
 		$ ssh-keygen -t rsa -C "youremail@example.com"
@@ -86,6 +87,9 @@ t仓库
 	第3步: 登陆GitHub，在右上角找到“Create a new repo”按钮，创建一个新的仓库,在Repository name填入仓库名，其他保持默认设置，点击“Create repository”按钮，就成功地创建了一个新的Git仓库
 
 	第4步: 在本地shell上 对GitHub上的仓库绑定: git remote add frelon git@github.com:lixuanliming/frelon.git
+
+	第5步: 	git config user.email "lixuanliming@gmail.com"
+		git config user.name "ulby"	
 
 #		这里的 frelon 是远程仓库的名字,后面是GitHub给的URL
 
